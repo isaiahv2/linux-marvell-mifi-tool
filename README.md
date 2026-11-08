@@ -1,98 +1,76 @@
-# Linux MiFi Tool
+Linux MiFi Tool
+Author: Isaiah
 
-**Author:** Isaiah  
-**Status:** Community project / work in progress
+Status: Community project / work in progress
+A Linux-native replacement for the supplied Marvell MifiTool V1.4.0.0.exe.
 
-A Linux-native replacement for the supplied Marvell `MifiTool V1.4.0.0.exe`.
-This project is shared for the Hovatek community and anyone working with a
-compatible Marvell MiFi device.
-
-## What it does
-
+It is intended for anyone working with a compatible Marvell MiFi device.
+What it does
 The original Windows utility communicates with the MiFi through an AT command
-interface at **115200 8N1**. It does not require a proprietary Windows driver.
+
+interface at 115200 8N1. It does not require a proprietary Windows driver.
+
 This Linux version supports both:
+·	Direct USB communication through the MiFi's vendor interface 4
+·	Serial devices such as /dev/ttyUSB0
+·	A graphical interface for reading device information, checking lock status,
 
-- Direct USB communication through the MiFi's vendor interface 4
-- Serial devices such as `/dev/ttyUSB0`
-- A graphical interface for reading device information, checking lock status,
-  and sending an unlock code
-- A command-line interface for scripting and troubleshooting
-
+and sending an unlock code
+·	A command-line interface for scripting and troubleshooting
 The recovered information commands are:
-
-```text
 *READVER
 *MRD_IMEI?
 +MIFIMAC?
 *MRD_SN?
 *MRD_SECOND_SN?
-```
 
-## Quick start
+Quick start
+1.	Connect the MiFi to the computer.
+2.	Open a terminal in this folder.
+3.	Start the graphical interface:
+4.	python3 mifi_gui.py
 
-1. Connect the MiFi to the computer.
-2. Open a terminal in this folder.
-3. Start the graphical interface:
-
-   ```bash
-   python3 mifi_gui.py
-   ```
-
-4. Click **Read Info**, **Check Lock**, or enter a code and click **Unlock**.
-
+5.	Click Read Info, Check Lock, or enter a code and click Unlock.
 You can also start the GUI from a terminal:
-
-```bash
 python3 mifi_gui.py
-```
 
-## Command-line usage
-
+Command-line usage
 The tool automatically tries the supported Marvell USB interface when the MiFi
-is connected:
 
-```bash
+is connected:
 python3 mifi_tool.py --usb
 python3 mifi_tool.py --usb --status
 python3 mifi_tool.py --usb --unlock YOUR_CODE
 python3 mifi_tool.py --usb --raw '*READVER'
-```
 
 For a serial connection, specify the port explicitly:
-
-```bash
 python3 mifi_tool.py --port /dev/ttyUSB0
 python3 mifi_tool.py --port /dev/ttyUSB0 --raw '*READVER'
-```
 
-## Requirements
-
+Requirements
 Python 3 with Tkinter, PySerial, and PyUSB is required. On Debian or Ubuntu,
-the dependencies can usually be installed with:
 
-```bash
+the dependencies can usually be installed with:
 sudo apt install python3 python3-tk python3-serial python3-usb
-```
 
 If Linux reports a USB-permission error, add the appropriate udev rule or
+
 device-permission group for your distribution, then reconnect the MiFi or log
+
 in again.
+Important notes
+·	Test the tool on your own device and keep a backup of important information.
+·	Unlocking may be restricted by the carrier or device firmware.
+·	The default unlock value used by the original Windows button is 123456.
 
-## Important notes
+Supply your own code with --unlock YOUR_CODE when required.
+·	The USB identifiers currently supported are Marvell vendor 1286 and
 
-- Test the tool on your own device and keep a backup of important information.
-- Unlocking may be restricted by the carrier or device firmware.
-- The default unlock value used by the original Windows button is `123456`.
-  Supply your own code with `--unlock YOUR_CODE` when required.
-- The USB identifiers currently supported are Marvell vendor `1286` and
-  product `4E31`.
-
-## Files
-
-- `start_mifi.sh` — optional launcher script
-- `mifi_gui.py` — graphical interface
-- `mifi_tool.py` — command-line tool and USB/serial communication code
-
+product 4E31.
+Files
+·	start_mifi.sh — optional launcher script
+·	mifi_gui.py — graphical interface
+·	mifi_tool.py — command-line tool and USB/serial communication code
 Feedback, testing results, and compatibility reports are welcome—especially
+
 for additional MiFi models that use the same AT interface.
